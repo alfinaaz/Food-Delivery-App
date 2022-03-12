@@ -15,10 +15,10 @@ function App() {
     <Carousel />
     <BrowserRouter>
     <Routes>
-    <Route  path="/" element={<Home/>} />
-    <Route exact path="/cart" element={<CartScreen/>} />
-    <Route path="/register"   element={<RegisterScreen/>}  />
-    <Route path="/login"      element={<LoginScreen/>}  />
+    <Route  path="/" element={<Home />} />
+    <Route  path="/cart" element={<CartScreen />} />
+    <Route path="/register" element= {<RegisterScreen />} />
+    <Route path="/login" element={<LoginScreen />} />
     </Routes>
     </BrowserRouter>
     </div>
