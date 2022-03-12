@@ -22,7 +22,7 @@ const finalReducer = combineReducers({
 
 // if the cartItems is present in the localStorage
 const cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')):[]
-
+const currentUser = localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')):null
 //THEN
 
 //creating initial state for cart reducer....
@@ -31,7 +31,12 @@ const initialState={
     cartReducer:{
     
         cartItems : cartItems
+    },
+ loginUserReducer:{
+    
+        currentUser : currentUser
     }
+   
 }
 
 const composeEnhancers= composeWithDevTools({})
