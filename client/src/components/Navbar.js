@@ -15,7 +15,7 @@ export default function Navbar() {
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav  ms-auto">
                             <li class="nav-item ">
-                                <a class="nav-link active" aria-current="page" href="#">Login</a>
+                                <a class="nav-link active" aria-current="page" href="/login">Login</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href='/cart'>Cart {cartstate.cartItems.length}</a>
