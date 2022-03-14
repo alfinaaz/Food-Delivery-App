@@ -1,13 +1,21 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useState } from 'react'
 import {useSelector , useDispatch} from 'react-redux'
 import {addToCart} from '../actions/cartActions'
 import {deleteFromCart} from '../actions/cartActions'
-import Checkout from '../components/Checkout'
-export default function CartScreen() {
-    
+import Checkout1 from '../components/Checkout1'
 
+
+
+export default  function CartScreen() {
+   
+   
     const cartstate = useSelector(state=>state.cartReducer)
     const cartItems = cartstate.cartItems
+   
+   
+
+   
     var subtotal = cartItems.reduce((x , item)=> x+item.price , 0)
     const dispatch = useDispatch()
     return (
@@ -41,15 +49,12 @@ export default function CartScreen() {
                       </div>
                        })}
 
-                       
-
                   </div>
 
                   <div className="col-md-4 text-right">
                       <h2 style={{fontSize:'45px'}}>SubTotal : {subtotal} /-</h2>
-                      <Checkout subtotal ={subtotal} />
+                      {<Checkout1 subtotal={subtotal}  />}
                   </div>
-
             </div>
         </div>
     )

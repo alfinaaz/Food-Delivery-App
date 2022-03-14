@@ -8,11 +8,12 @@ import CartScreen from './Screen/CartScreen';
 import RegisterScreen from './Screen/RegisterScreen';
 import LoginScreen from './Screen/LoginScreen';
 
+
+
 function App() {
   return (
     <div className="App">
     <Navbar />  
-    <Carousel />
     <BrowserRouter>
     <Routes>
     <Route  path="/" element={<Home />} />
