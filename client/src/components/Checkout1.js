@@ -1,5 +1,10 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import  Error  from './Error';
+import Success from './Success';
+import{SUCCESS,FAILURE} from './Constants';
+
+
 function loadScript(src) {
 	return new Promise((resolve) => {
 		const script = document.createElement('script')
@@ -26,46 +31,106 @@ function Checkout1({subtotal}){
 			alert('Razorpay SDK failed to load. Are you online?')
 			return
 		}
-
-		const data = await axios.post('http://localhost:8000/api/orders/payment',{subtotal});
-		if(data.amount!=0){
-		console.log(data)
+       
+		if(customer.name!=="" && customer.email!=="" && customer.phone!=="" && customer.address!=="" && customer.city!=="" && customer.state!==""&& customer.zip!==""){
+		const res1 = await axios.post('http://localhost:8000/api/orders/payment',{subtotal});
+		
+		console.log(res1)
 
 		const options = {
 			key: __DEV__ ? 'rzp_test_5teoHf9kBKHnQ2' : 'PRODUCTION_KEY',
-			currency: data.currency,
-			amount: (subtotal*100).toString(),
-			order_id: data.id,
+			currency: res1.currency,
+			amount: ({subtotal}*100).toString(),
+			order_id: res1.data.id,
 			name: 'FOOD DELIVERY',
 			description: 'PAYMENT GATEWAY',
-			handler: function (response) {
-				alert(response.razorpay_payment_id)
-				alert(response.razorpay_order_id)
-				alert(response.razorpay_signature)
-			},
-			notes:{
+			handler: async function (response) {
+				const orderdata = {
+				  orderId: res1.data.id,
+				  razorpayPaymentId: response.razorpay_payment_id,
+				  razorpayOrderId: response.razorpay_order_id,
+				  razorpaySignature: response.razorpay_signature,
+				};
+		
+		console.log(orderdata);
+		
+				const result = await axios.post("http://localhost:8000/api/orders/success", {orderdata,customer});
 
-				address: 'abx',
+				console.log(result.data);
+				console.log(customer);
+				
+				if(result.data.str===SUCCESS.str)
+					alert("Order Placed Successfully!")
 
-			}
+				else if(result.data.str===FAILURE.str)
+					alert("Oops! Your Payment failed, Please try again!")
+
+				else
+					alert("Error! 404")
+
+				
+				
+            },
 			
 		}
 		const paymentObject = new window.Razorpay(options)
 		paymentObject.open()
-	}else
-	{
-			alert("Select items to proceed");
+	}
+	else
+		alert("Please enter the details")
 	}
 
-}
-	
+//const orderstate=useSelector(state=>state.placeOrderReducer)
+//const {loading,success,error}=orderstate;
+
+const[customer,setCustomer]= useState({name:"",email:"",phone:"",address:"",city:"",state:"",zip:""})
 
 	return (
-		<div className="App">
-			<header className="App-header">
-				<p>
-					Proceed to checkout! Have a yummy day ahead <img src ="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/docomo/205/face-savouring-delicious-food_1f60b.png"></img>
-				</p>
+		<div>
+			
+			Proceed to checkout! Have a yummy day ahead <img src ="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/docomo/205/face-savouring-delicious-food_1f60b.png"></img>
+			<form className="row g-3 needs-validation" noValidate >
+            <div className="col-md-4">
+                <label htmlFor="validationCustom01" className="form-label">Name</label>
+                <input type="text" className="form-control" id="validationCustom01" value={customer.name} required  onChange={(e)=>setCustomer(prevState=>{return {...prevState,name:e.target.value}})}/>
+                <div className="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div className="col-md-6">
+                <label for="inputEmail4" className="form-label">Email</label>
+                <input type="email" className="form-control" id="inputEmail4" value={customer.email} onChange={(e)=>setCustomer(prevState=>{return {...prevState,email:e.target.value}})}/>
+            </div>
+            <div className="form-group">
+        <label for="phone_no">Phone Number</label>
+        <input type="text" className="form-control" required  id="phone_no" placeholder="Phone Number" value={customer.phone}  onChange={(e)=>setCustomer(prevState=>{return {...prevState,phone:e.target.value}})}/>
+
+      </div>
+            <div className="col-12">
+                <label for="inputAddress" className="form-label">Address</label>
+                <input type="text" className="form-control" id="inputAddress"  placeholder="1234 Main St" value={customer.address} onChange={(e)=>setCustomer(prevState=>{return {...prevState,address:e.target.value}})}/>
+            </div>
+            <div className="col-md-6">
+                <label htmlFor="validationCustom03" className="form-label">City</label>
+                <input type="text" className="form-control" id="validationCustom03" value={customer.city} required onChange={(e)=>setCustomer(prevState=>{return {...prevState,city:e.target.value}})}/>
+                <div className="invalid-feedback">
+                    Please provide a valid city.
+                </div>
+            </div>
+            <div className="col-md-6">
+                <label htmlFor="validationCustom03" className="form-label">State</label>
+                <input type="text" className="form-control" id="validationCustom03" value={customer.state} required onChange={(e)=>setCustomer(prevState=>{return {...prevState,state:e.target.value}})}/>
+                <div className="invalid-feedback">
+                </div>
+            </div>
+            <div className="col-md-3">
+                <label htmlFor="validationCustom05" className="form-label">Zip</label>
+                <input type="text" className="form-control" id="validationCustom05" required value={customer.zip} onChange={(e)=>setCustomer(prevState=>{return {...prevState,zip:e.target.value}})}/>
+                <div className="invalid-feedback">
+                    Please provide a valid zip.
+                </div>
+            </div>
+		</form>
 				<button
 					className="btn"
 					onClick={displayRazorpay}
@@ -74,7 +139,6 @@ function Checkout1({subtotal}){
 				>
 				CHECKOUT	
 				</button>
-			</header>
 		</div>
 	)
 }
