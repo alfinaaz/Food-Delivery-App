@@ -14,10 +14,10 @@ code {
 }
 
 .nav-link{
-  color:burlywood !important;
+  color:black !important;
 }
 .navbar-brand{
-  color:burlywood;
+  color:black
 }
 .flex-container{
   display: flex !important;

@@ -7,6 +7,7 @@ import { getAllFoodsReducer} from './reducers/foodReducers';
 import { cartReducer } from './reducers/cartReducers';
 import {  registerUserReducer } from './reducers/userReducers';
 import { loginUserReducer } from './reducers/userReducers';
+import {myOrdersReducer} from './reducers/myOrdersReducers';
 
 
 const finalReducer = combineReducers({
@@ -14,6 +15,7 @@ const finalReducer = combineReducers({
     cartReducer : cartReducer,
     registerUserReducer: registerUserReducer,
     loginUserReducer: loginUserReducer,
+    myOrdersReducer : myOrdersReducer
 
 })
 

@@ -40,7 +40,7 @@ const foodItem =[
       ],
       category: "veg",
       description:"Hunger Hunger Go Away, My Healthy Parathas are on the way!!",
-      image: "https://www.vegrecipesofindia.com/wp-content/uploads/2010/06/plain-paratha-recipe-1a.jpg",
+      image: "https://www.cookwithmanali.com/wp-content/uploads/2014/07/Avocado-Parathas-Recipe-notitle-cwm.jpg",
     },
     {
       name: "Paneer Butter Masala",

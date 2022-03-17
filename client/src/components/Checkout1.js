@@ -35,8 +35,9 @@ function Checkout1({ subtotal }) {
 			alert("Please Log in to place an order!");
 
 		else if (customer.name !== "" && customer.phone !== "" && customer.address !== "") {
+			
 			const res1 = await axios.post('http://localhost:8000/api/orders/payment', { subtotal });
-           //1 Receiving the Order Id from Backend
+			//1 Receiving the Order Id from Backend
 			console.log(res1)
 
 			const options = {
@@ -55,7 +56,7 @@ function Checkout1({ subtotal }) {
 					};
 
 					console.log(orderdata); // Sending these data to backend to verify whether payment was succesful 
-									        // or not using sha256 algorithm. If successful push customer data to database
+					// or not using sha256 algorithm. If successful push customer data to database
 
 					const result = await axios.post("http://localhost:8000/api/orders/success", { orderdata, customer, email, subtotal, cartItems });
 
@@ -63,6 +64,7 @@ function Checkout1({ subtotal }) {
 					console.log(customer);
 
 					if (result.data.str === SUCCESS.str) {
+						localStorage.setItem('cartItems', []);
 						alert("Order Placed Successfully!");
 					}
 
@@ -81,6 +83,7 @@ function Checkout1({ subtotal }) {
 			alert("Please enter the details")
 	}
 
+
 	//const orderstate=useSelector(state=>state.placeOrderReducer)
 	//const {loading,success,error}=orderstate;
 
@@ -94,9 +97,9 @@ function Checkout1({ subtotal }) {
 	const [customer, setCustomer] = useState({ name: "", phone: "", address: "" })
 
 	return (
-		<div>
+		<div style={{backgroundcolor:'white'}}>
 
-			Proceed to checkout! Have a yummy day ahead 
+			Proceed to checkout! Have a yummy day ahead
 			<img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/docomo/205/face-savouring-delicious-food_1f60b.png"></img>
 			<form className="row g-3 needs-validation" noValidate >
 				<div className="col-md-4">
@@ -118,12 +121,14 @@ function Checkout1({ subtotal }) {
 				<div className="col-md-6">
 					<label htmlFor="validationCustom03" className="form-label">City</label>
 					<input type="text" className="form-control" id="validationCustom03" value={"Dhanbad"} disabled />
+					<p style={{fontSize:12}}>*The delivery is valid only for the particular regions</p>
 				</div>
 				<div className="col-md-6">
 					<label htmlFor="validationCustom03" className="form-label">State</label>
 					<input type="text" className="form-control" id="validationCustom03" value={'Jharkhand'} disabled />
 					<div className="invalid-feedback">
 					</div>
+					
 				</div>
 			</form>
 			<button
@@ -134,6 +139,7 @@ function Checkout1({ subtotal }) {
 			>
 				CHECKOUT
 			</button>
+			
 		</div>
 	)
 }

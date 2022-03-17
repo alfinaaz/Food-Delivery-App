@@ -16,12 +16,14 @@ app.use(cors());
 const foodsRoute = require('./routes/foodsRoute')
 const userRoute = require('./routes/userRoute')
 const ordersRoute= require('./routes/ordersRoute')
+const myOrdersRoute=require('./routes/myOrdersRoute');
 //
 
 app.use('/api/foods/',foodsRoute)
 app.use('/api/users/',userRoute)
 app.use('/api/orders/',ordersRoute)
 app.use('/api/orders/',ordersRoute);
+app.use('/api/',myOrdersRoute);
 
 
 app.listen(port,function(err)
@@ -33,3 +35,6 @@ app.listen(port,function(err)
     }
     console.log("Server up and running on Port",port);
 });
+
+
+

@@ -7,7 +7,7 @@ const customerSchema= mongoose.Schema({
     email: {type: String , require},
     address:{type:String,require},
     cartItems : [],
-    orderAmount : {type:Number , require},
+    subtotal : {type:Number , require},
     isDelivered : {type:Boolean , require , default: false},
     
 },{
