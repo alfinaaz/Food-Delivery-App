@@ -1,4 +1,8 @@
 const express=require('express');
+
+//
+const path = require('path');
+
 const cors= require('cors');
 const port=8000;
 
@@ -13,6 +17,15 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors());
 
 
+
+
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  });
+
+
 const foodsRoute = require('./routes/foodsRoute')
 const userRoute = require('./routes/userRoute')
 const ordersRoute= require('./routes/ordersRoute')
@@ -24,6 +37,13 @@ app.use('/api/users/',userRoute)
 app.use('/api/orders/',ordersRoute)
 app.use('/api/orders/',ordersRoute);
 app.use('/api/',myOrdersRoute);
+
+
+
+
+
+
+
 
 
 app.listen(port,function(err)
