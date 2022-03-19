@@ -4,7 +4,7 @@ const express=require('express');
 const path = require('path');
 
 const cors= require('cors');
-const port=8000;
+const port=process.env.PORT||8000;
 
 //
 const Food= require('./models/foodModel');
@@ -18,12 +18,12 @@ app.use(cors());
 
 
 
-
+if(process.env.NODE_ENV==="production"){
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-  });
+  });}
 
 
 const foodsRoute = require('./routes/foodsRoute')
